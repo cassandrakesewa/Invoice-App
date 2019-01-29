@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import From from './Form';
 import To from './Form';
 import Data from './ListForm';
+import TableListings from './Table';
 
 const styles = {
   card: {
@@ -27,7 +28,7 @@ const styles = {
   },
 };
 
-function SimpleCard(props) {
+const formCard = (props) => {
   const { classes } = props;
 
   return (
@@ -56,12 +57,15 @@ function SimpleCard(props) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item sm={8}>
+        <Grid item sm={10}>
           <Card className={classes.card}>
             <CardContent>
                 <Data />
             </CardContent>
           </Card>
+        </Grid>
+        <Grid item sm={12}>
+            <TableListings/>
         </Grid>
     </Grid>
    
@@ -69,8 +73,8 @@ function SimpleCard(props) {
   );
 }
 
-SimpleCard.propTypes = {
+formCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleCard);
+export default withStyles(styles)(formCard);

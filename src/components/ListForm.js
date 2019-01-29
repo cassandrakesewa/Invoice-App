@@ -1,9 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import * as actions from '../store/actions/index';
 
 const styles = theme => ({
   container: {
@@ -26,6 +27,13 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
+  description:{
+    margin:'8px 8px 20px 8px',
+  },
+  button:{
+    height: 40,
+    margin: 'auto 0'
+  }
 });
 
 const currencies = [
@@ -43,49 +51,59 @@ const currencies = [
   }
 ];
 
-class OutlinedTextFields extends React.Component {
-  constructor(){
-    super();
-    this.state = {
+class ListForm extends Component{
+  state = {
       price: 0.00,
-      amount: 0.00,
       currency: 'GHC',
       quantity: 1,
-      amount: 0.00  
-    };
-  }
-  
+      amount: 0.00,
+      description:''
+    }  
 
   handleChange(e) {
     this.setState({ [e.target.name] : e.target.value });
- }
+  }
 
-handleonblur(){
-  let tamount = this.state.price * this.state.quantity;
-  console.log(tamount); 
-  this.setState({
-    amount: tamount
-  })
-}
+  handleonblur(){
+    let tamount = this.state.price * this.state.quantity;
+    
+    this.setState({
+      amount: tamount
+    })
+  }
+
+  handleOnSubmitProjectInfo = () =>{
+      const productInfo = {
+        description:this.state.description,
+        price:+this.state.price,
+        quantity:this.state.quantity,
+        amount:this.state.amount
+      };
+
+      this.props.onAddProductDetails(productInfo);
+
+  }
 
  
   render() {
     const { classes } = this.props;
 
     return (
-      <form className={classes.container} noValidate autoComplete="off">
+      <form className={classes.container}>
+        
         <TextField
           id="outlined-full-width"
           label="Description"
-          style={{ margin: 8 }}
-          fullWidth
-          margin="normal"
+          className={classes.description}
+          value={this.state.description}
+          name="description"
+          onChange={this.handleChange.bind(this)}
           variant="outlined"
+          fullWidth
           InputLabelProps={{
             shrink: true,
           }}
         />
-
       <TextField
           id="outlined-select-currency-native"
           select
@@ -154,13 +172,25 @@ handleonblur(){
           }}
           variant="outlined"
         />
+
+      <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOnSubmitProjectInfo}>
+        Add
+      </Button>
       </form>
     );
   }
 }
 
-OutlinedTextFields.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+const mapStateToProps = (state) =>{
+  return{
+    productInfo:state.productInfo
+  }
+}
 
-export default withStyles(styles)(OutlinedTextFields);
+const mapDispatchToProps = (dispatch) => {
+  return{
+    onAddProductDetails: (productInfo) => dispatch(actions.addProductDetails(productInfo))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ListForm));
