@@ -1,7 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const intitialState = {
-    productInfo: []
+    productInfo: [],
+    customerInfo:[],
+    clientInfo:[]
 }
 
 const reducer = (state = intitialState, action) => {

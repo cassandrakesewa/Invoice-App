@@ -82,6 +82,14 @@ class ListForm extends Component{
 
       this.props.onAddProductDetails(productInfo);
 
+      this.setState({
+        price: 0.00,
+        currency: 'GHC',
+        quantity: 1,
+        amount: 0.00,
+        description:''
+      })
+
   }
 
  

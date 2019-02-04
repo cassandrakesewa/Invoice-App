@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
+
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Formcard from './components/FormCard';
+import TableListing from './components/Table';
 
 
         const styles = theme => ({
@@ -28,7 +31,7 @@ import Formcard from './components/FormCard';
                             </div>
                         </Grid>
                         <Grid item sm={4}>
-                            <div className={classes.paper}>Right</div>
+                            <div className={classes.paper}>Right Section</div>
                         </Grid>
                     </Grid>
                 </div>

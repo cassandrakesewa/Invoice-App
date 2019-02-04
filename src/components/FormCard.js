@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
+import ReactToPrint from'react-to-print';
+import {connect} from 'react-redux';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -6,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import From from './Form';
 import To from './Form';
 import Data from './ListForm';
@@ -28,8 +32,46 @@ const styles = {
   },
 };
 
-const formCard = (props) => {
-  const { classes } = props;
+class FormCard extends Component{
+  state={
+    userEmail:'kljhj',
+    userName:'',
+    userAddress:'',
+    userNumber:null,
+    clientEmail:'',
+    clientName:'',
+    clientAddress:'',
+    clientNumber:null
+  }
+
+  handleChange(e) {
+    this.setState({ [e.target.name] : e.target.value });
+  }
+
+  onSubmitToPreview = () =>{
+    const clientInfo = {
+      name:this.state.clientName,
+      email:this.state.clientEmail,
+      address:this.state.clientAddress,
+      phonenumber:this.state.clientNumber
+    }
+    // console.log("userInfo", this.state.userEmail);
+
+    const userInfo = {
+      name:this.state.userName,
+      email:this.state.userEmail,
+      address:this.state.userAddress,
+      phonenumber:this.state.userNumber
+    }
+
+    console.log("userInfo", userInfo);
+    console.log("clientInfo", clientInfo);
+    console.log("productInfo", this.props.productInfo);
+  }
+
+
+  render(){
+  const { classes } = this.props;
 
   return (
     <Grid container spacing={24}>
@@ -41,7 +83,16 @@ const formCard = (props) => {
               </Typography>
             </AppBar>
             <CardContent>
-              <From />
+              <From 
+              name="userName" 
+              email="userEmail"
+              address="userAddress"
+              phone="userNumber"
+              namevalue={this.state.userName}
+              emailvalue={this.state.userEmail}
+              addressvalue={this.state.userAddress}
+              phonevalue={this.state.userPhone}
+              handleChange={this.handleChange.bind(this)} />
             </CardContent>
           </Card>
         </Grid>
@@ -53,7 +104,16 @@ const formCard = (props) => {
               </Typography>
             </AppBar>
             <CardContent>
-                <To />
+                <To 
+                name="clientName" 
+                email="clientEmail"
+                address="clientAddress"
+                phone="clientNumber"
+                namevalue={this.state.clientName}
+                emailvalue={this.state.clientEmail}
+                addressvalue={this.state.clientAddress}
+                phonevalue={this.state.clientPhone}
+                handleChange={this.handleChange.bind(this)}/>
             </CardContent>
           </Card>
         </Grid>
@@ -65,16 +125,24 @@ const formCard = (props) => {
           </Card>
         </Grid>
         <Grid item sm={12}>
-            <TableListings/>
+            <TableListings />
         </Grid>
+        <Button variant="contained" color="primary" onClick={this.onSubmitToPreview}>
+        Preview to Print
+        </Button>
+              
     </Grid>
    
     
   );
+
+  }
 }
 
-formCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+const mapStateToProps = (state) => {
+  return{
+  productInfo:state.productInfo
+  }
+}
 
-export default withStyles(styles)(formCard);
+export default connect(mapStateToProps)(withStyles(styles)(FormCard));

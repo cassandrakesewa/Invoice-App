@@ -17,36 +17,36 @@ const styles = theme => ({
 function Inputs(props) {
   const { classes } = props;
   return (
-    <div className={classes.container}>
+    <form className={classes.container}>
       <Input
         placeholder ="Name"
         className={classes.input}
-        inputProps={{
-          'aria-label': 'Description',
-        }}
+        name={props.name}
+        value={props.namevalue}
+        onChange={props.handleChange}
       />
       <Input
         placeholder="Email"
         className={classes.input}
-        inputProps={{
-          'aria-label': 'Description',
-        }}
+        name={props.email}
+        value={props.emailvalue}
+        onChange={props.handleChange}
       />
       <Input
         placeholder="Address"
         className={classes.input}
-        inputProps={{
-          'aria-label': 'Description',
-        }}
+        name={props.address}
+        value={props.addressvalue}
+        onChange={props.handleChange}
       />
       <Input
         placeholder="Phonenumber"
         className={classes.input}
-        inputProps={{
-          'aria-label': 'Description',
-        }}
+        name={props.phone}
+        value={props.phonevalue}
+        onChange={props.handleChange}
       />
-    </div>
+    </form>
   );
 }
 
